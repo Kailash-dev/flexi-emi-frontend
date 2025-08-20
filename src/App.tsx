@@ -1,9 +1,30 @@
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+// import Login from "./pages/Login";
+// import Home from "./pages/Home";
 
-function App() {
+export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
-    <h1 className="text-3xl font-bold text-blue-600">Hello Flexi EMI 🚀</h1>
+    <Router>
+      <Routes>
+        {/* Login Page */}
+        <Route
+          path="/login"
+          element={<Login setIsAuthenticated={setIsAuthenticated} />}
+        />
+
+        {/* Home Page (Protected) */}
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? <Home /> : <Navigate to="/login" replace />
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
